@@ -189,7 +189,7 @@ public class rWebView extends Activity {
 	protected void showNotification() 
 	{
         CharSequence from ="WebView";
-        CharSequence message ="正在運行";
+        CharSequence message ="running";
 
 
 		Intent intent = new Intent(this, rWebView.class);
