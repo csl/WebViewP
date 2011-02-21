@@ -1,5 +1,7 @@
 package com.webview;
 
+import com.phonegap.DroidGap;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -14,19 +16,20 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.graphics.Bitmap;
 
-public class rWebView extends Activity {
+public class rWebView extends DroidGap {
 	
 	private static final String TAG = "Brower";
     /** Called when the activity is first created. */
 
-   private WebView mWebView;
    private AlertDialog.Builder builder;
    private ProgressDialog mProgressDialog;
    
@@ -36,41 +39,24 @@ public class rWebView extends Activity {
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        //setContentView(R.layout.main);
         Log.e(TAG, "onCreate");
-        init();
+ 
+        builder = new AlertDialog.Builder(this);
+
+        if (CheckInternet(3))
+		{
+        	//openOptionsDialog("pass");
+			super.loadUrl("file:///android_asset/www/index.html");			
+		}
+		else
+		{
+			super.loadUrl("file:///android_asset/www/error.html");		
+		}
+       
+		showNotification();
     }
 
-	private void init() 
-	{
-		builder = new AlertDialog.Builder(this);
-
-		mWebView = (WebView)findViewById(R.id.webview);
-		//mWebView.getSettings().setJavaScriptEnabled(true);		
-		mWebView.getSettings().setDefaultTextEncodingName("big5");
-		mWebView.getSettings().setSupportZoom(false);
-
-		if (CheckInternet(3))
-		{
-			mWebView.loadUrl("http://211.72.204.156/index.html");			
-		}
-		
-		mWebView.setWebViewClient(new WebViewClient()
-		{  
-		    public boolean shouldOverrideUrlLoading(WebView view, String url) 
-		    {  
-		        view.loadUrl(url);  
-		        return true;  
-		    }  
-		    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) 
-		    {
-		    	openOptionsDialog(failingUrl);
-		    	CheckInternet(3);
-		    }
-		});
-		
-		showNotification();
-	}
     
     private boolean CheckInternet(int retry)
     {
@@ -81,14 +67,6 @@ public class rWebView extends Activity {
     		if (has == true) break;    		
     	}
     	
-		//Check Internet
-		if (has == false)
-		{
-			String folder = Environment.getExternalStorageDirectory().toString();
-			mWebView.loadUrl("file://" + folder + "/error.html");		
-			//openOptionsDialog("file://" + folder + "/error.html");
-		}
-
 		return has;
     }
     
@@ -147,11 +125,9 @@ public class rWebView extends Activity {
 	{  
 		String url = "";
 		
-	    if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) 
+	    if ((keyCode == KeyEvent.KEYCODE_BACK) && super.appView.canGoBack()) 
 	    {  
-	    	  url = mWebView.getUrl();
-	    	  openOptionsDialog(url);
-	         mWebView.goBack();
+	    	 //super.appView.goBack();
 	         return true;
 	    }  
 	    else if (keyCode == KeyEvent.KEYCODE_BACK)
@@ -177,18 +153,20 @@ public class rWebView extends Activity {
           AlertDialog alert = builder.create();
           alert.show();
           
+          return true;        	  	
 	    }
 	    else if (keyCode == KeyEvent.KEYCODE_MENU)
 	    {
 	    	return super.onKeyDown(keyCode, event);
 	    }
+	    
         return super.onKeyDown(keyCode, event);        	  	
  	   	    
 	}
 	
 	protected void showNotification() 
 	{
-        CharSequence from ="WebView";
+        CharSequence from ="WebViewP";
         CharSequence message ="running";
 
 
