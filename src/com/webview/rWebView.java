@@ -31,9 +31,7 @@ public class rWebView extends DroidGap {
     /** Called when the activity is first created. */
 
    private AlertDialog.Builder builder;
-   private ProgressDialog mProgressDialog;
-   
-	private static final int MENU_EXIT = Menu.FIRST;
+   private static final int MENU_EXIT = Menu.FIRST;
 
     @Override
     public void onCreate(Bundle savedInstanceState) 
