@@ -229,11 +229,13 @@ public class DroidGap extends PhonegapActivity {
         this.appView.setHorizontalScrollBarEnabled(false);
         this.appView.requestFocusFromTouch();
         
+        /*
         this.appView.setOnTouchListener(new View.OnTouchListener() {
                     public boolean onTouch(View v, MotionEvent event) {
                         return(event.getAction() == MotionEvent.ACTION_MOVE);
                     }
         });
+        */
 
 
         // Enable JavaScript

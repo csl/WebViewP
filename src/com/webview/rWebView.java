@@ -169,10 +169,12 @@ public class rWebView extends DroidGap {
         CharSequence message ="running";
 
 
-		Intent intent = new Intent(this, rWebView.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-	                        intent, 0/*PendingIntent.FLAG_NO_CREATE*/);
-		Notification notif = new Notification(R.drawable.icon , "WebView",  System.currentTimeMillis());
+		//Intent intent = new Intent(this, rWebView.class);
+        Intent intent = this.getIntent();
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
+		Notification notif = new Notification(R.drawable.icon , "WebViewP",  System.currentTimeMillis());
+		
 		notif.setLatestEventInfo(this, from, message, contentIntent);
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.notify(R.string.app_name, notif);
