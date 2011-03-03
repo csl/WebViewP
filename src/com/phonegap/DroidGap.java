@@ -1152,14 +1152,13 @@ public class DroidGap extends PhonegapActivity {
     		 // Load URL on UI thread
     		 me.runOnUiThread(new Runnable() {
     			 public void run() {
-    				 me.appView.loadUrl("file:///android_asset/www/error.html");
+    				 me.appView.loadUrl("file:///android_asset/www/wifi.html");
     			 }
     		 });
     	 }
-
     	 // If not, then display error dialog
     	 else {
-			 me.appView.loadUrl("file:///android_asset/www/error.html");
+			 me.appView.loadUrl("file:///android_asset/www/wifi.html");
     		 //me.appView.loadUrl("about:blank");
     		 //me.displayError("Application Error", description + " ("+failingUrl+")", "OK", true);
     	 }
