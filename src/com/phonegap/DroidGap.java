@@ -9,6 +9,7 @@ package com.phonegap;
 
 import org.json.JSONArray;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Picture;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -120,6 +123,8 @@ public class DroidGap extends PhonegapActivity {
 
 	// The initial URL for our app
 	private String url;
+	
+	private ProgressDialog mydialog;
 	
 	// The base of the initial URL for our app
 	private String baseUrl;
@@ -368,6 +373,8 @@ public class DroidGap extends PhonegapActivity {
 		}
 		System.out.println("url="+url+" baseUrl="+baseUrl);
 
+		mydialog = ProgressDialog.show(this, "please wait¡K" , "Loading", true);	
+
 		// Load URL on UI thread
 		final DroidGap me = this;
 		this.runOnUiThread(new Runnable() {
@@ -436,8 +443,10 @@ public class DroidGap extends PhonegapActivity {
 	 * @param url
 	 * @param time				The number of ms to wait before loading webview
 	 */
-	public void loadUrl(final String url, final int time) {
+	public void loadUrl(final String url, final int time) 
+	{
 		System.out.println("loadUrl("+url+","+time+")");
+		
 		final DroidGap me = this;
 
 		// Handle activity parameters
@@ -448,14 +457,17 @@ public class DroidGap extends PhonegapActivity {
 		});
 
 		Runnable runnable = new Runnable() {
-			public void run() {
+			public void run() 
+			{
 				try {
-					synchronized(this) {
+					synchronized(this) 
+					{
 						this.wait(time);
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				
 				if (!me.cancelLoadUrl) {
 					me.loadUrl(url);
 				}
@@ -465,6 +477,7 @@ public class DroidGap extends PhonegapActivity {
 				}
 			}
 		};
+		
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}
@@ -971,6 +984,9 @@ public class DroidGap extends PhonegapActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
         	super.onPageFinished(view, url);
+        	
+        	//loading ok
+			mydialog.dismiss();
 
         	// Clear timeout flag
         	this.ctx.loadUrlTimeout++;
@@ -1152,13 +1168,23 @@ public class DroidGap extends PhonegapActivity {
     		 // Load URL on UI thread
     		 me.runOnUiThread(new Runnable() {
     			 public void run() {
-    				 me.appView.loadUrl("file:///android_asset/www/wifi.html");
+    				 me.appView.loadUrl("file:///android_asset/www/error.html");
     			 }
     		 });
     	 }
     	 // If not, then display error dialog
     	 else {
-			 me.appView.loadUrl("file:///android_asset/www/wifi.html");
+    	        if (CheckInternet(3))
+    			{
+    	        	//openOptionsDialog("pass");
+    				 me.appView.loadUrl("file:///android_asset/www/error.html");
+    				//super.loadUrl("file:///android_asset/www/index.html");			
+    			}
+    			else
+    			{
+   				 	me.appView.loadUrl("file:///android_asset/www/wifi.html");
+    			}
+
     		 //me.appView.loadUrl("about:blank");
     		 //me.displayError("Application Error", description + " ("+failingUrl+")", "OK", true);
     	 }
@@ -1194,4 +1220,46 @@ public class DroidGap extends PhonegapActivity {
     		 }
     	 });
      }
+     
+     private boolean CheckInternet(int retry)
+     {
+     	boolean has = false;
+     	for (int i=0; i<=retry; i++)
+     	{
+     		has = HInternet();
+     		if (has == true) break;    		
+     	}
+     	
+ 		return has;
+     }
+
+     
+     private boolean HInternet()
+     {
+ 	     boolean result = false;
+ 	     
+ 	     ConnectivityManager connManager = (ConnectivityManager) 
+ 	                                getSystemService(Context.CONNECTIVITY_SERVICE); 
+ 	      
+ 	     NetworkInfo info = connManager.getActiveNetworkInfo();
+ 	     
+ 	     if (info == null || !info.isConnected())
+ 	     {
+ 	    	 result = false;
+ 	     }
+ 	     else 
+ 	     {
+ 		     if (!info.isAvailable())
+ 		     {
+ 		    	 result =false;
+ 		     }
+ 		     else
+ 		     {
+ 		    	 result = true;
+ 		     }
+      }
+     
+      return result;
+     }
+
 }

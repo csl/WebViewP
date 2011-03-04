@@ -50,7 +50,7 @@ public class rWebView extends DroidGap {
 		}
 		else
 		{
-			super.loadUrl("file:///android_asset/www/error.html");		
+			super.loadUrl("file:///android_asset/www/wifi.html");		
 		}
        
 		showNotification();
