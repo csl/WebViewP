@@ -9,6 +9,7 @@ package com.phonegap.api;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 
 /**
  * The Phonegap activity abstract class that is extended by DroidGap.
@@ -40,4 +41,9 @@ public abstract class PhonegapActivity extends Activity {
      * @param requestCode		The request code that is passed to callback to identify the activity
      */
     abstract public void startActivityForResult(Plugin command, Intent intent, int requestCode);
+    
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 }

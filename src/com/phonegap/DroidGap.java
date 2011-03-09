@@ -200,7 +200,7 @@ public class DroidGap extends PhonegapActivity {
     	// Setup the hardware volume controls to handle volume control
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
-    
+  
     /**
      * Create and initialize web container.
      */
@@ -373,7 +373,7 @@ public class DroidGap extends PhonegapActivity {
 		}
 		System.out.println("url="+url+" baseUrl="+baseUrl);
 
-		mydialog = ProgressDialog.show(this, "please wait¡K" , "Loading", true);	
+		mydialog = ProgressDialog.show(this, "please waitï¿½K" , "Loading", true);	
 
 		// Load URL on UI thread
 		final DroidGap me = this;
