@@ -373,7 +373,7 @@ public class DroidGap extends PhonegapActivity {
 		}
 		System.out.println("url="+url+" baseUrl="+baseUrl);
 
-		mydialog = ProgressDialog.show(this, "please wait�K" , "Loading", true);	
+		mydialog = ProgressDialog.show(this, "please wait..." , "Loading", true);	
 
 		// Load URL on UI thread
 		final DroidGap me = this;

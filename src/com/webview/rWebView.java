@@ -45,7 +45,7 @@ public class rWebView extends DroidGap {
         if (CheckInternet(3))
 		{
         	//openOptionsDialog("pass");
-			super.loadUrl("http://123.204.250.65/index.asp");			
+			super.loadUrl("http://www.calltaxi.com.tw/mobile_calltaxi/index.asp");			
 			//super.loadUrl("file:///android_asset/www/index.html");			
 		}
 		else
