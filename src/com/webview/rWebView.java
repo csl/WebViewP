@@ -131,7 +131,7 @@ public class rWebView extends DroidGap {
 	    }  
 	    else if (keyCode == KeyEvent.KEYCODE_BACK)
 	    {
-            builder.setMessage("Are you exit?");
+            builder.setMessage("請確定是否離開程式");
             builder.setCancelable(false);
            
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -165,7 +165,7 @@ public class rWebView extends DroidGap {
 	
 	protected void showNotification() 
 	{
-        CharSequence from ="WebViewP";
+        CharSequence from ="找計程車";
         CharSequence message ="running";
 
 
